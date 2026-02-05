@@ -1,0 +1,40 @@
+2026-02-05 20:26:21,156 | COREDMS | WARNING | Mongo not reachable yet
+2026-02-05 20:26:27,652 | COREDMS | WARNING | Mongo not reachable yet
+2026-02-05 20:26:33,673 | COREDMS | WARNING | Mongo not reachable yet
+2026-02-05 20:26:40,173 | COREDMS | WARNING | Mongo not reachable yet
+2026-02-05 20:26:46,204 | COREDMS | WARNING | Mongo not reachable yet
+2026-02-05 20:26:52,216 | COREDMS | WARNING | Mongo not reachable yet
+2026-02-05 20:26:57,262 | COREDMS | INFO | Mongo primary is ready
+2026-02-05 20:26:58,849 | COREDMS | WARNING | [CLUSTER] Primary changed: None → mongo1:27017
+2026-02-05 20:26:58,849 | COREDMS | INFO | [CLUSTER] Node UP: mongo1:27017
+2026-02-05 20:26:58,849 | COREDMS | INFO | [CLUSTER] Node UP: mongo2:27017
+2026-02-05 20:26:58,849 | COREDMS | INFO | [CLUSTER] Node UP: mongo3:27017
+2026-02-05 20:26:58,854 | COREDMS | INFO | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.18.0.5:5000
+2026-02-05 20:26:58,854 | COREDMS | INFO | [33mPress CTRL+C to quit[0m
+2026-02-05 20:27:29,051 | COREDMS | INFO | WRITE_METRICS | primary_node=mongo1:27017 | records=8819 | duration_sec=0.119 | throughput_rps=74249.25
+2026-02-05 20:27:29,052 | COREDMS | INFO | 172.18.0.6 - - [05/Feb/2026 20:27:29] "[35m[1mPOST /data HTTP/1.1[0m" 201 -
+2026-02-05 20:28:28,937 | COREDMS | WARNING | [CLUSTER] Primary changed: mongo1:27017 → mongo2:27017
+2026-02-05 20:50:48,706 | COREDMS | WARNING | Mongo not reachable yet
+2026-02-05 20:50:54,731 | COREDMS | WARNING | Mongo not reachable yet
+2026-02-05 20:50:57,519 | COREDMS | INFO | Mongo primary is ready
+2026-02-05 20:50:58,356 | COREDMS | WARNING | [CLUSTER] PRIMARY changed: None → mongo1:27017
+2026-02-05 20:50:58,360 | COREDMS | INFO | [CLUSTER] Node UP: mongo1:27017
+2026-02-05 20:50:58,360 | COREDMS | INFO | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.18.0.5:5000
+2026-02-05 20:50:58,360 | COREDMS | INFO | [CLUSTER] Node UP: mongo2:27017
+2026-02-05 20:50:58,360 | COREDMS | INFO | [33mPress CTRL+C to quit[0m
+2026-02-05 20:50:58,360 | COREDMS | INFO | [CLUSTER] Node UP: mongo3:27017
+2026-02-05 20:52:11,912 | COREDMS | INFO | WRITE_METRICS | primary_node=mongo1:27017 | records=8819 | duration_sec=0.145 | throughput_rps=60631.38
+2026-02-05 20:52:11,913 | COREDMS | INFO | 172.18.0.6 - - [05/Feb/2026 20:52:11] "[35m[1mPOST /data HTTP/1.1[0m" 201 -
+2026-02-05 20:54:57,675 | COREDMS | INFO | WRITE_METRICS | primary_node=mongo1:27017 | records=1213 | duration_sec=0.038 | throughput_rps=31970.31
+2026-02-05 20:54:57,677 | COREDMS | INFO | 172.18.0.6 - - [05/Feb/2026 20:54:57] "[35m[1mPOST /data HTTP/1.1[0m" 201 -
+2026-02-05 20:58:04,099 | COREDMS | INFO | WRITE_METRICS | primary_node=mongo1:27017 | records=9061 | duration_sec=0.130 | throughput_rps=69473.91
+2026-02-05 20:58:04,101 | COREDMS | INFO | 172.18.0.6 - - [05/Feb/2026 20:58:04] "[35m[1mPOST /data HTTP/1.1[0m" 201 -
+2026-02-05 20:58:16,617 | COREDMS | WARNING | [CLUSTER] PRIMARY changed: mongo1:27017 → mongo2:27017
+2026-02-05 21:00:55,880 | COREDMS | INFO | WRITE_METRICS | primary_node=mongo2:27017 | records=8746 | duration_sec=0.193 | throughput_rps=45322.43
+2026-02-05 21:00:55,883 | COREDMS | INFO | 172.18.0.6 - - [05/Feb/2026 21:00:55] "[35m[1mPOST /data HTTP/1.1[0m" 201 -
