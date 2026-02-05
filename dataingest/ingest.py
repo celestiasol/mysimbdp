@@ -4,7 +4,8 @@ import os
 import pandas as pd
 from io import StringIO
 from jsonschema import validate, ValidationError
-import logging
+import logging, time
+from pymongo import WriteConcern
 
 LOG_DIR = "/logs"
 os.makedirs(LOG_DIR, exist_ok=True)
@@ -12,13 +13,15 @@ os.makedirs(LOG_DIR, exist_ok=True)
 logging.basicConfig(
     filename=f"{LOG_DIR}/ingestion.log",
     level=logging.INFO,
-    format="%(asctime)s | %(levelname)s | %(message)s"
+    format="%(asctime)s | DATAINGEST | %(levelname)s | %(message)s"
 )
 
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 COREDMS_API = os.getenv("COREDMS_API", "http://mysimbdp-coredms:5000")
+WRITE_CONCERN = os.getenv("WRITE_CONCERN", "majority")
+
 
 def validate_records(records):
     valid = []
@@ -55,6 +58,8 @@ def index():
 
 @app.route("/ingest", methods=["POST"])
 def ingest():
+    start_time = time.time()
+
     data = request.get_json()
 
     if not data or "dataset_url" not in data:
@@ -145,14 +150,28 @@ def ingest():
             "error": "Unexpected ingestion error",
             "details": str(e)
         }), 500
+    
+    end_time = time.time()
+    duration = end_time - start_time
+    records_per_sec = len(valid_records) / duration if duration > 0 else 0
+
+    logger.info(
+    f"INGEST_METRICS | "
+    f"tenant={tenant_id} | "
+    f"total_records={len(valid_records)} | "
+    f"invalid_records={len(invalid_records)} | "
+    f"duration_sec={duration:.3f} | "
+    f"throughput_rps={records_per_sec:.2f} | "
+    f"write_concern={WRITE_CONCERN}"
+    )
 
     return jsonify({
-        "status": "Ingestion completed",
-        "valid_records": len(valid_records),
-        "invalid_records": len(invalid_records),
-        "sample_invalid": invalid_records[:3]
+    "status": "Ingestion completed",
+    "valid_records": len(valid_records),
+    "invalid_records": len(invalid_records),
+    "duration_seconds": round(duration, 3),
+    "records_per_second": round(records_per_sec, 2)
     }), 200
-
 
 
 if __name__ == "__main__":

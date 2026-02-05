@@ -46,6 +46,8 @@ services:
       - MONGO_URI=mongodb://mongo1:27017,mongo2:27017,mongo3:27017/?replicaSet=rs0
     networks:
       - mongo-cluster
+    volumes:
+      - ./logs:/logs
 
   dataingest:
     build: ./dataingest
@@ -57,7 +59,8 @@ services:
     depends_on:
       - coredms
     environment:
-      - MONGO_URI=mongodb://mongo1:27017,mongo2:27017,mongo3:27017/?replicaSet=rs0
+      - COREDMS_API=http://mysimbdp-coredms:5000
+      - WRITE_CONCERN=w1
     networks:
       - mongo-cluster
 
