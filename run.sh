@@ -20,6 +20,7 @@ curl -X POST http://localhost:6000/ingest \
   -d '{
         "dataset_url":"https://raw.githubusercontent.com/Azure/AzurePublicDataset/refs/heads/master/data/AzureLLMInferenceTrace_code.csv",
         "tenantId": "Azure"
+        }'
 
 curl "http://localhost:5001/data?tenantId=Azure&limit=5"
 
