@@ -1,15 +1,49 @@
 version: '3.8'
 
 services:
+
+  configsvr1:
+    image: mongo:6.0
+    container_name: mongo-configsvr1
+    command: mongod --configsvr --replSet cfg --port 27019
+    ports:
+      - "27019:27019"
+    volumes:
+      - ./mongo/configsvr1:/data/db
+      - ./mongo-init:/mongo-init
+    networks:
+      - mongo-cluster
+      
+  configsvr2:
+    image: mongo:6.0
+    container_name: mongo-configsvr2
+    command: mongod --configsvr --replSet cfg --port 27019
+    volumes:
+      - ./mongo/configsvr2:/data/db
+      - ./mongo-init:/mongo-init
+    networks:
+      - mongo-cluster
+
+  configsvr3:
+    image: mongo:6.0
+    container_name: mongo-configsvr3
+    command: mongod --configsvr --replSet cfg --port 27019
+    volumes:
+      - ./mongo/configsvr3:/data/db
+      - ./mongo-init:/mongo-init
+    networks:
+      - mongo-cluster
+
   mongo1:
     image: mongo:6.0
     container_name: mongo1
     hostname: mongo1
     ports:
-      - "27017:27017"
-    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
+      - "27018:27018"
+    command: ["mongod", "--shardsvr", "--replSet", "rs0", "--bind_ip_all"]
     volumes:
       - mongo1-data:/data/db
+      - ./mongo-init:/mongo-init
     networks:
       - mongo-cluster
 
@@ -17,7 +51,7 @@ services:
     image: mongo:6.0
     container_name: mongo2
     hostname: mongo2
-    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
+    command: ["mongod", "--shardsvr", "--replSet", "rs0", "--bind_ip_all"]
     volumes:
       - mongo2-data:/data/db
     networks:
@@ -27,9 +61,28 @@ services:
     image: mongo:6.0
     container_name: mongo3
     hostname: mongo3
-    command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
+    command: ["mongod", "--shardsvr", "--replSet", "rs0", "--bind_ip_all"]
     volumes:
       - mongo3-data:/data/db
+    networks:
+      - mongo-cluster
+
+  mongos:
+    image: mongo:6.0
+    container_name: mongos
+    depends_on:
+      - configsvr1
+      - configsvr2
+      - configsvr3
+      - mongo1
+      - mongo2
+      - mongo3
+    command: >
+      mongos --configdb cfg/mongo-configsvr1:27019,mongo-configsvr2:27019,mongo-configsvr3:27019 --bind_ip_all --port 27020
+    ports:
+      - "27020:27020"
+    volumes:
+      - ./mongo-init:/mongo-init
     networks:
       - mongo-cluster
 
@@ -43,7 +96,7 @@ services:
       - mongo2
       - mongo3
     environment:
-      - MONGO_URI=mongodb://mongo1:27017,mongo2:27017,mongo3:27017/?replicaSet=rs0
+      - MONGO_URI=mongodb://mongos:27020/mysimbdp?retryWrites=true
     networks:
       - mongo-cluster
     volumes:

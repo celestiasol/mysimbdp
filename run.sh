@@ -1,5 +1,15 @@
 docker-compose up --build
-docker exec -it mongo1 mongosh < ./mongo-init/rs-init.js
+
+docker exec -i mongo-configsvr1 mongosh --port 27019 --file /mongo-init/cfg-init.js
+docker exec -i mongo1 mongosh --host mongo1 --port 27018 --file /mongo-init/rs-init.js
+
+docker compose restart mongos
+
+docker exec -i mongos mongosh --port 27020 --file /mongo-init/sharding.js
+
+docker exec -i mongos mongosh --port 27020
+sh.status()
+db.tenant_data.getShardDistribution()
 
 docker stop mongo1
 docker start mongo1
@@ -18,24 +28,22 @@ curl -X POST http://localhost:6000/ingest \
   -H "Content-Type: application/json" \
   -d '{
         "dataset_url":"https://raw.githubusercontent.com/alibaba/clusterdata/refs/heads/master/cluster-trace-gpu-v2023/csv/openb_node_list_gpu_node.csv",
-        "tenantId": "Alibaba"
+        "tenantId": "Alibaba_GPU"
         }'
 
 curl -X POST http://localhost:6000/ingest \
   -H "Content-Type: application/json" \
   -d '{
         "dataset_url":"https://raw.githubusercontent.com/alibaba/clusterdata/refs/heads/master/cluster-trace-gpu-v2023/csv/openb_pod_list_multigpu50.csv",
-        "tenantId": "Alibaba"
+        "tenantId": "Alibaba_MultiGPU50"
         }'
 
 curl -X POST http://localhost:6000/ingest \
   -H "Content-Type: application/json" \
   -d '{
         "dataset_url":"https://raw.githubusercontent.com/alibaba/clusterdata/refs/heads/master/cluster-trace-gpu-v2023/csv/openb_pod_list_multigpu40.csv",
-        "tenantId": "Alibaba"
+        "tenantId": "Alibaba_MultiGPU40"
         }'
-
-curl "http://localhost:5001/data?tenantId=NIH&limit=5"
 
 curl -X POST http://localhost:6000/ingest \
   -H "Content-Type: application/json" \

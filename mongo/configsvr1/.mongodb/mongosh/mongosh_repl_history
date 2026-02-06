@@ -1,0 +1,25 @@
+exit
+rs.status()
+exit
+})
+  ]
+    { _id: 2, host: "mongo-configsvr3:27019" }
+    { _id: 1, host: "mongo-configsvr2:27019" },
+    { _id: 0, host: "mongo-configsvr1:27019" },
+  members: [
+  configsvr: true,
+  _id: "cfg",
+rs.initiate({
+exit
+cfg.status()
+exit
+})
+  ]
+    { _id: 2, host: "mongo-configsvr3:27019" }
+    { _id: 1, host: "mongo-configsvr2:27019" },
+    { _id: 0, host: "mongo-configsvr1:27019" },
+  members: [
+  configsvr: true,
+  _id: "cfg",
+rs.initiate({
+exit
