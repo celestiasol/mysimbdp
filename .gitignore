@@ -1,2 +1,5 @@
 logs/*
 !logs/.gitkeep
+submitter.csv
+git_log.txt
+mongo
